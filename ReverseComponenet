@@ -1,0 +1,42 @@
+import React, { useState } from 'react';
+import './ReverseMove.css'; // Import CSS file for styling
+
+const ReverseMove = () => {
+  const [position, setPosition] = useState({ top: 50, left: 50 });
+
+ 
+    const handleMouseMove = (e) => {
+  
+    const containerHeight = e.currentTarget.clientHeight;
+    const containerWidth = e.currentTarget.clientWidth;
+    const initialPosition = { top: 50 / 2, left:50 / 2 };
+    const mouseX = e.clientX - e.currentTarget.offsetLeft;
+    const mouseY = e.clientY - e.currentTarget.offsetTop;
+
+    // Calculate the reverse position with limited movement
+    const offsetMultiplier = 0.1; // Smaller multiplier for slow movement
+    let newTop = initialPosition.top - (mouseY - initialPosition.top) * offsetMultiplier;
+    let newLeft = initialPosition.left - (mouseX - initialPosition.left) * offsetMultiplier;
+
+    // Ensure the component doesn't move more than 100px in any direction from its initial position
+    newTop = Math.max(initialPosition.top - 100, Math.min(initialPosition.top + 100, newTop));
+    newLeft = Math.max(initialPosition.left - 100, Math.min(initialPosition.left + 100, newLeft));
+
+        setPosition({ top: newTop, left: newLeft });
+        console.log(newLeft, newLeft)
+  };
+
+
+  return (
+    <div className="container" onMouseMove={handleMouseMove}>
+      <div
+        className="movable"
+        style={{ top: `${position.top}px`, left: `${position.left}px` }}
+      >
+        Move me
+      </div>
+    </div>
+  );
+};
+
+export default ReverseMove;
